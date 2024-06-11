@@ -1,3 +1,5 @@
+Let the right-arrow stick to the right edge of the button only
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,6 +14,7 @@
             overflow-x: hidden;
         }
         .navbar {
+            position :fixed;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -39,13 +42,15 @@
             height: 58px;
             margin-left: 20px;
             margin-bottom: -15px;
+            position: fixed;
         }
         .right-section {
             display: flex;
             align-items: center;
         }
         .date-time {
-            font-weight: normal;
+            font-family: 'Poppins', regular;
+            font-weight: normal; /* SemiBold */
             margin-right: 20px;
         }
         .pos-button {
@@ -123,14 +128,170 @@
         .tab-button:hover img, .tab-button.active img {
             filter: brightness(0) invert(1);
         }
+        .arrow-icon {
+            position: absolute; /* Added to position the arrow absolutely within the button */
+            right: 20px; /* Adjusted to move the arrow to the right edge */
+            transition: filter 0.3s;
+        }
+
         #content-area {
-            margin-top: 78px;
+            margin-left: -12px;
+            margin-top: 60px;
             padding: 20px;
             transition: margin-left 0.3s ease-in-out;
+            padding-top: 15px;
         }
         #content-area.tab-open {
             margin-left: 250px;
         }
+        .category-row {
+            display: flex;
+            /* justify-content: ; */
+            margin: 20px ;
+        }
+        .category {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 200px;
+            height: 50px;
+            font-weight: 700;
+            background-color: #C4C4C4;
+            color: black;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+            margin: 5px; /* Added margin property */
+            margin-top: -1px;
+}
+        .category:hover, .category.selected {
+            background-color: #B41513;
+            color: white;
+        }
+        h1 {
+            border: 0;
+            text-align: left;
+            margin-top: -20; /* Adjust as needed */
+            font-weight: 600;
+            color: black;
+            margin : 20px
+        }
+
+        main {
+            display: flex;
+            width: 100%;
+            padding: 20px;
+        }
+
+        .products {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px;
+            flex-grow: 1;
+            width: 1000px;
+        }
+
+        .product {
+            border: 1px solid #ccc;
+            border-radius: 5%;
+            padding: 10px;
+            width: 150px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .product img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+        }
+
+        .cart {
+            border: 1px solid #ccc;
+            border-radius: 5%;
+            padding: 20px;
+            width: 250px;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .summary {
+            border-top: 1px solid #ccc;
+            padding-top: 10px;
+        }
+
+        .summary p {
+            margin: 5px 0;
+        }
+
+        .summary-btn {
+            background-color: #a00000;
+            color: #ffffff;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+        .pos-btn {
+            background-color: #ffffff;
+            color: #a00000;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            width: 300px;
+            text-align: center;
+        }
+
+        .modal-content button {
+            margin: 10px 0;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .numpad {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .numpad button {
+            width: 50px;
+            height: 50px;
+            font-size: 1.2em;
+        }
+
+        .change-display {
+            margin-top: 10px;
+        }
+
     </style>
     <script>
         function navigateTo(url) {
@@ -168,21 +329,120 @@
                 .catch(error => console.error('Error loading content:', error));
         }
 
+        function filterProducts(category) {
+            const allProducts = document.querySelectorAll('.product');
+            allProducts.forEach(product => {
+                if (product.innerText.includes(category)) {
+                    product.style.display = 'block';
+                } else {
+                    product.style.display = 'none';
+                }
+            });
+        }
+
+        const cartItems = [];
+        
+        function addToCart(name, price) {
+            const existingItem = cartItems.find(item => item.name === name);
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cartItems.push({ name, price, quantity: 1 });
+            }
+            renderCart();
+        }
+
+        function renderCart() {
+            const cartElement = document.querySelector('.cart-items');
+            cartElement.innerHTML = '';
+            cartItems.forEach(item => {
+                const cartItem = document.createElement('div');
+                cartItem.classList.add('cart-item');
+                cartItem.innerHTML = `
+                    <p>${item.name}<br>${item.price.toFixed(2)} บาท</p>
+                    <div class="quantity-control">
+                        <button onclick="updateQuantity('${item.name}', -1)">-</button>
+                        <span>${item.quantity}</span>
+                        <button onclick="updateQuantity('${item.name}', 1)">+</button>
+                    </div>
+                `;
+                cartElement.appendChild(cartItem);
+            });
+            updateSummary();
+        }
+
+        function updateQuantity(name, change) {
+            const item = cartItems.find(item => item.name === name);
+            if (item) {
+                item.quantity += change;
+                if (item.quantity <= 0) {
+                    const index = cartItems.indexOf(item);
+                    cartItems.splice(index, 1);
+                }
+            }
+            renderCart();
+        }
+
+        function updateSummary() {
+            const total = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const discount = 0; // Add discount logic if needed
+            const grandTotal = total - discount;
+
+            document.querySelector('.summary p:nth-child(1)').textContent = `ยอดรวม: ${total.toFixed(2)} บาท`;
+            document.querySelector('.summary p:nth-child(2)').textContent = `ส่วนลด: -${discount.toFixed(2)} บาท`;
+            document.querySelector('.summary p:nth-child(3)').textContent = `ทั้งหมด: ${grandTotal.toFixed(2)} บาท`;
+        }
+
+        function checkBill() {
+            document.getElementById('transactionModal').style.display = 'flex';
+        }
+
+        function selectPaymentMethod(method) {
+            if (method === 'cash') {
+                document.getElementById('numpad').style.display = 'flex';
+            } else {
+                // Handle QR Payment
+            }
+        }
+
+        function inputCash(num) {
+            const cashInput = document.getElementById('cashInput');
+            cashInput.value = cashInput.value + num;
+        }
+
+        function clearCash() {
+            document.getElementById('cashInput').value = '';
+        }
+
+        function calculateChange() {
+            const cashInput = document.getElementById('cashInput').value;
+            const total = parseFloat(document.querySelector('.summary p:nth-child(3)').textContent.split(': ')[1]);
+            const change = cashInput - total;
+            document.getElementById('changeDisplay').textContent = `เงินทอน: ${change.toFixed(2)} บาท`;
+        }
+
         window.onload = function() {
             updateTime();
             setInterval(updateTime, 1000);
-            loadContent('dashboard-content.html'); // Load initial dashboard content
-
+           
             document.querySelectorAll('.tab-button').forEach(button => {
                 button.addEventListener('click', function() {
                     document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
                     this.classList.add('active');
                 });
             });
+
+            document.querySelectorAll('.category').forEach(category => {
+                category.addEventListener('click', function() {
+                    document.querySelectorAll('.category').forEach(cat => cat.classList.remove('selected'));
+                    this.classList.add('selected');
+                });
+            });
         }
     </script>
 </head>
 <body>
+    <main>
     <div class="navbar">
         <div class="left-section">
             <span id="menu-icon" class="menu-icon" onclick="toggleMenu()">☰</span>
@@ -198,27 +458,152 @@
         </div>
     </div>
     <div id="tab-bar" class="tab-bar">
-        <button class="tab-button cashier-button active" onclick="loadContent('cashier.html')">
+        <button class="tab-button cashier-button active" onclick="navigateTo('pos1.html')">
             <img src="./Asset/cashier.svg" alt="Cashier Icon" width="24" height="24">
             <span>แคชเชียร์</span>
+            <img src="./Asset/right-arr.svg" alt="Arrow Icon" class="arrow-icon" width="24" height="24">
         </button>
         <button class="tab-button" onclick="loadContent('product.html')">
             <img src="./Asset/product.svg" alt="Product Icon" width="24" height="24">
             <span>สินค้า</span>
+            <img src="./Asset/right-arr.svg" alt="Arrow Icon" class="arrow-icon" width="24" height="24">
         </button>
         <button class="tab-button" onclick="loadContent('sales.html')">
             <img src="./Asset/sale.svg" alt="Sales Icon" width="24" height="24">
             <span>สรุปยอดขาย</span>
+            <img src="./Asset/right-arr.svg" alt="Arrow Icon" class="arrow-icon" width="24" height="24">
         </button>
         <button class="tab-button" onclick="loadContent('promotion.html')">
             <img src="./Asset/promotion.svg" alt="Promotion Icon" width="24" height="24">
             <span>โปรโมชั่น</span>
+            <img src="./Asset/right-arr.svg" alt="Arrow Icon" class="arrow-icon" width="24" height="24">
         </button>
         <button class="tab-button" onclick="loadContent('sales-history.html')">
             <img src="./Asset/history.svg" alt="History Icon" width="24" height="24">
             <span>ประวัติการขาย</span>
+            <img src="./Asset/right-arr.svg" alt="Arrow Icon" class="arrow-icon" width="24" height="24">
         </button>
     </div>
-    <div id="content-area"></div>
+    <div id="content-area">
+        <h1>Welcome to แม่ POS</h1>
+        <div class="category-row">
+            <div class="category"  onclick="filterProducts('pos1.html')">
+                น้ำพริก
+                </div>
+            <div class="category"  onclick="filterProducts('sales-history.html')">
+                น้ำจิ้ม
+                </div>
+            <div class="category"  onclick="filterProducts('sales-history.html')">
+                น้ำพริกแกง
+                </div>
+            <div class="category"  onclick="filterProducts('sales-history.html')">
+                เครื่องปรุงรสกึ่งสำเร็จรูป
+                </div>
+            <div class="category"  onclick="filterProducts('sales-history.html')">
+                ผลิตภัณฑ์พร้อมปรุง
+                </div>
+            <div class="category"  onclick="filterProducts('sales-history.html')">
+                ผลิตภัณฑ์อื่นๆ
+                </div>
+                
+                
+        </div>
+        <section class="products">
+            <!-- Product list will go here -->
+            <div class="product" onclick="addToCart('น้ำพริกเผาไทย', 120)">
+                <img src="Asset/น้ำพริก/Thai Chilli Paste Box.png" alt="Product 1">
+                <p>น้ำพริกเผาไทย<br>120.00 บาท</p>
+            </div>
+            <div class="product" onclick="addToCart('น้ำพริกเผาไทยสูตรเจ', 32)">
+                <img src="Asset/น้ำพริก/Vegetarian Thai Chilli Paste 114g.png" alt="Product 2">
+                <p>น้ำพริกเผาไทยสูตรเจ<br>32.00 บาท</p>
+            </div>
+            <div class="product" onclick="addToCart('น้ำพริกเผาไทยไม่มีน้ำตาล', 63)">
+                <img src="Asset/น้ำพริก/Thai Chilli Paste 114g.png"Product 3">
+                <p>น้ำพริกเผาไทยไม่มีน้ำตาล<br>63.00 บาท</p>
+            </div>
+            <div class="product" onclick="addToCart('น้ำพริกเผาไทย', 120)">
+                <img src="product1.jpg" alt="Product 4">
+                <p>น้ำพริกเผาไทย<br>120.00 บาท</p>
+            </div>
+            <div class="product" onclick="addToCart('น้ำพริกเผาไทย', 120)">
+                <img src="product1.jpg" alt="Product 5">
+                <p>น้ำพริกเผาไทย<br>120.00 บาท</p>
+            </div>
+            <div class="product" onclick="addToCart('น้ำพริกเผาไทย', 120)">
+                <img src="product1.jpg" alt="Product 6">
+                <p>น้ำพริกเผาไทย<br>120.00 บาท</p>
+            </div>
+            <div class="product" onclick="addToCart('น้ำพริกเผาไทย', 120)">
+                <img src="product1.jpg" alt="Product 7">
+                <p>น้ำพริกเผาไทย<br>120.00 บาท</p>
+            </div>
+            <div class="product" onclick="addToCart('น้ำพริกเผาไทย', 120)">
+                <img src="product1.jpg" alt="Product 8">
+                <p>น้ำพริกเผาไทย<br>120.00 บาท</p>
+            </div>
+            <div class="product" onclick="addToCart('น้ำพริกเผาไทย', 120)">
+                <img src="product1.jpg" alt="Product 9">
+                <p>น้ำพริกเผาไทย<br>120.00 บาท</p>
+            </div>
+            <div class="product" onclick="addToCart('น้ำพริกเผาไทย', 120)">
+                <img src="product1.jpg" alt="Product 10">
+                <p>น้ำพริกเผาไทย<br>120.00 บาท</p>
+            </div>
+            <!-- More products here -->
+            
+            <aside class="cart">
+                <h2>ใบเสร็จ</h2>
+                    <div class="cart-items">
+                        <!-- Cart items will be added dynamically here -->
+                    </div>
+                    <div class="summary">
+                        <p>ยอดรวม: 0.00 บาท</p>
+                        <p>ส่วนลด: -0.00 บาท</p>
+                        <p>ทั้งหมด: 0.00 บาท</p>
+                        <button class="summary-btn" onclick="checkBill()">สรุปรายการ</button>
+                    </div>
+            </aside>
+        </section>
+        
+    </div>
+</main>
 </body>
+<div class="modal" id="transactionModal">
+    <div class="modal-content">
+        <h2>เลือกวิธีการชำระเงิน</h2>
+        <button onclick="selectPaymentMethod('cash')">เงินสด</button>
+        <button onclick="selectPaymentMethod('qr')">QR Payment</button>
+        
+        <div class="numpad" id="numpad">
+            <input type="text" id="cashInput" placeholder="Enter cash amount" readonly>
+            <div>
+                <button onclick="inputCash(1)">1</button>
+                <button onclick="inputCash(2)">2</button>
+                <button onclick="inputCash(3)">3</button>
+            </div>
+            <div>
+                <button onclick="inputCash(4)">4</button>
+                <button onclick="inputCash(5)">5</button>
+                <button onclick="inputCash(6)">6</button>
+            </div>
+            <div>
+                <button onclick="inputCash(7)">7</button>
+                <button onclick="inputCash(8)">8</button>
+                <button onclick="inputCash(9)">9</button>
+            </div>
+            <div>
+                <button onclick="inputCash(0)">0</button>
+                <button onclick="clearCash()">C</button>
+                <button onclick="calculateChange()">OK</button>
+            </div>
+            <div class="change-display">
+                <p id="changeDisplay">เงินทอน: 0.00 บาท</p>
+            </div>
+        </div>
+    </div>
+</div>
+
 </html>
+
+

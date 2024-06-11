@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POS System</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding: 10px;
+            background-color: #a00000;
+            color: #ffffff;
+        }
+
+        .logo img {
+            height: 50px;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        .date {
+            margin-left: auto;
+            margin-right: 10px;
+        }
+
+        .pos-btn {
+            background-color: #ffffff;
+            color: #a00000;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        main {
+            display: flex;
+            width: 100%;
+            padding: 20px;
+        }
+
+        .product-categories {
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            gap: 10px;
+        }
+
+        .product-categories button {
+            padding: 10px;
+            background-color: #f0f0f0;
+            border: none;
+            cursor: pointer;
+        }
+
+        .products {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px;
+            flex-grow: 1;
+            width: 1000px;
+        }
+
+        .product {
+            border: 1px solid #ccc;
+            padding: 10px;
+            width: 150px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .product img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+        }
+
+        .cart {
+            border: 1px solid #ccc;
+            padding: 20px;
+            width: 250px;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .summary {
+            border-top: 1px solid #ccc;
+            padding-top: 10px;
+        }
+
+        .summary p {
+            margin: 5px 0;
+        }
+
+        .summary-btn {
+            background-color: #a00000;
+            color: #ffffff;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            width: 300px;
+            text-align: center;
+        }
+
+        .modal-content button {
+            margin: 10px 0;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .numpad {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .numpad button {
+            width: 50px;
+            height: 50px;
+            font-size: 1.2em;
+        }
+
+        .change-display {
+            margin-top: 10px;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="logo.png" alt="Logo">
+        </div>
+        <h1>Welcome to แม่ POS</h1>
+        <div class="date">7 August 2022 | 09:41</div>
+        <button class="pos-btn">POS</button>
+    </header>
+    
+    <main>
+        <section class="product-categories">
+            <button onclick="filterProducts('น้ำพริก')">น้ำพริก</button>
+            <button onclick="filterProducts('น้ำจิ้ม')">น้ำจิ้ม</button>
+            <button onclick="filterProducts('น้ำพริกแกง')">น้ำพริกแกง</button>
+            <button onclick="filterProducts('เครื่องปรุงรสสำเร็จรูป')">เครื่องปรุงรสสำเร็จรูป</button>
+            <button onclick="filterProducts('ผลิตภัณฑ์พร้อมปรุง')">ผลิตภัณฑ์พร้อมปรุง</button>
+            <button onclick="filterProducts('ผลิตภัณฑ์อื่นๆ')">ผลิตภัณฑ์อื่นๆ</button>
+        </section>
+        
+        <section class="products">
+            <!-- Product list will go here -->
+            <div class="product" onclick="addToCart('น้ำพริกเผาไทยสูตรเจ', 32)">
+                <img src="product1.jpg" alt="Product 1">
+                <p>น้ำพริกเผาไทยสูตรเจ<br>32.00 บาท</p>
+            </div>
+            <div class="product" onclick="addToCart('น้ำพริกเผาไทยไม่มีน้ำตาล', 63)">
+                <img src="product2.jpg" alt="Product 2">
+                <p>น้ำพริกเผาไทยไม่มีน้ำตาล<br>63.00 บาท</p>
+            </div>
+            <!-- More products here -->
+        </section>
+        
+        <aside class="cart">
+            <h2>ใบเสร็จ</h2>
+            <div class="cart-items">
+                <!-- Cart items will be added dynamically here -->
+            </div>
+            <div class="summary">
+                <p>ยอดรวม: 0.00 บาท</p>
+                <p>ส่วนลด: -0.00 บาท</p>
+                <p>ทั้งหมด: 0.00 บาท</p>
+                <button class="summary-btn" onclick="checkBill()">สรุปรายการ</button>
+            </div>
+        </aside>
+    </main>
+    
+    <div class="modal" id="transactionModal">
+        <div class="modal-content">
+            <h2>เลือกวิธีการชำระเงิน</h2>
+            <button onclick="selectPaymentMethod('cash')">เงินสด</button>
+            <button onclick="selectPaymentMethod('qr')">QR Payment</button>
+            
+            <div class="numpad" id="numpad">
+                <input type="text" id="cashInput" placeholder="Enter cash amount" readonly>
+                <div>
+                    <button onclick="inputCash(1)">1</button>
+                    <button onclick="inputCash(2)">2</button>
+                    <button onclick="inputCash(3)">3</button>
+                </div>
+                <div>
+                    <button onclick="inputCash(4)">4</button>
+                    <button onclick="inputCash(5)">5</button>
+                    <button onclick="inputCash(6)">6</button>
+                </div>
+                <div>
+                    <button onclick="inputCash(7)">7</button>
+                    <button onclick="inputCash(8)">8</button>
+                    <button onclick="inputCash(9)">9</button>
+                </div>
+                <div>
+                    <button onclick="inputCash(0)">0</button>
+                    <button onclick="clearCash()">C</button>
+                    <button onclick="calculateChange()">OK</button>
+                </div>
+                <div class="change-display">
+                    <p id="changeDisplay">เงินทอน: 0.00 บาท</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const cartItems = [];
+        
+        function addToCart(name, price) {
+            const existingItem = cartItems.find(item => item.name === name);
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cartItems.push({ name, price, quantity: 1 });
+            }
+            renderCart();
+        }
+
+        function renderCart() {
+            const cartElement = document.querySelector('.cart-items');
+            cartElement.innerHTML = '';
+            cartItems.forEach(item => {
+                const cartItem = document.createElement('div');
+                cartItem.classList.add('cart-item');
+                cartItem.innerHTML = `
+                    <p>${item.name}<br>${item.price.toFixed(2)} บาท</p>
+                    <div class="quantity-control">
+                        <button onclick="updateQuantity('${item.name}', -1)">-</button>
+                        <span>${item.quantity}</span>
+                        <button onclick="updateQuantity('${item.name}', 1)">+</button>
+                    </div>
+                `;
+                cartElement.appendChild(cartItem);
+            });
+            updateSummary();
+        }
+
+        function updateQuantity(name, change) {
+            const item = cartItems.find(item => item.name === name);
+            if (item) {
+                item.quantity += change;
+                if (item.quantity <= 0) {
+                    const index = cartItems.indexOf(item);
+                    cartItems.splice(index, 1);
+                }
+            }
+            renderCart();
+        }
+
+        function updateSummary() {
+            const total = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const discount = 0; // Add discount logic if needed
+            const grandTotal = total - discount;
+
+            document.querySelector('.summary p:nth-child(1)').textContent = `ยอดรวม: ${total.toFixed(2)} บาท`;
+            document.querySelector('.summary p:nth-child(2)').textContent = `ส่วนลด: -${discount.toFixed(2)} บาท`;
+            document.querySelector('.summary p:nth-child(3)').textContent = `ทั้งหมด: ${grandTotal.toFixed(2)} บาท`;
+        }
+
+        function checkBill() {
+            document.getElementById('transactionModal').style.display = 'flex';
+        }
+
+        function selectPaymentMethod(method) {
+            if (method === 'cash') {
+                document.getElementById('numpad').style.display = 'flex';
+            } else {
+                // Handle QR Payment
+            }
+        }
+
+        function inputCash(num) {
+            const cashInput = document.getElementById('cashInput');
+            cashInput.value = cashInput.value + num;
+        }
+
+        function clearCash() {
+            document.getElementById('cashInput').value = '';
+        }
+
+        function calculateChange() {
+            const cashInput = document.getElementById('cashInput').value;
+            const total = parseFloat(document.querySelector('.summary p:nth-child(3)').textContent.split(': ')[1]);
+            const change = cashInput - total;
+            document.getElementById('changeDisplay').textContent = `เงินทอน: ${change.toFixed(2)} บาท`;
+        }
+
+        function filterProducts(category) {
+            const allProducts = document.querySelectorAll('.product');
+            allProducts.forEach(product => {
+                if (product.innerText.includes(category)) {
+                    product.style.display = 'block';
+                } else {
+                    product.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
