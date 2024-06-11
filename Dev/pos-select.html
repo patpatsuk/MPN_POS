@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POS Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #B41513;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Poppins';
+        }
+        .frame {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 300px;
+        }
+        .logo {
+            width: 100px;
+            margin-bottom: 20px;
+            border-radius: 50%;
+        }
+        .pos-text {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        .pos-links {
+            display: flex;
+            justify-content: space-between;
+            margin: -10px;
+        }
+        .pos-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: white;
+            color: #B41513;
+            text-decoration: none;
+            padding: 12px;
+            border-radius: 10px;
+            width: calc(33.33% - 20px);
+            font-weight: 600;
+            border: 2px solid #B41513;
+            transition: all 0.3s ease;
+            margin: 10px;
+        }
+        .pos-link:hover {
+            background-color: #B41513;
+            color: white;
+        }
+        .icon {
+            width: 24px;
+            height: 24px;
+            margin-bottom: 10px;
+            color : #B41513
+        }
+        .pos-link:hover .icon {
+            filter: brightness(0) invert(1);  /* Change icon color to white on hover */
+        }
+    </style>
+</head>
+<body>
+    <div class="frame">
+        <img src="./Asset/logo.png" alt="Logo" class="logo">
+        <div class="pos-text">แม่ POS</div>
+        <div class="pos-links">
+            <a href="pos1.html" class="pos-link">
+                <img src="./Asset/pos.svg" alt="POS1" class="icon">
+                POS1
+            </a>
+            <a href="pos2.html" class="pos-link">
+                <img src="./Asset/pos.svg" alt="POS2" class="icon">
+                POS2
+            </a>
+            <a href="more.html" class="pos-link">
+                <img src="./Asset/plus.png" alt="เพิ่ม" class="icon">
+                เพิ่ม
+            </a>
+        </div>
+    </div>
+</body>
+</html>

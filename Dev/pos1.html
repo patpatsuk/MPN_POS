@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+        }
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #B41513;
+            color: white;
+            padding: 10px 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1001;
+            height: 58px;
+        }
+        .menu-icon {
+            text-align: center;
+            font-size: 45px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        .menu-icon:hover {
+            transform: scale(1.1);
+        }
+        .logo {
+            width: 50px;
+            height: 58px;
+            margin-left: 20px;
+            margin-bottom: -15px;
+        }
+        .right-section {
+            display: flex;
+            align-items: center;
+        }
+        .date-time {
+            font-weight: normal;
+            margin-right: 20px;
+        }
+        .pos-button {
+            display: flex;
+            align-items: center;
+            background-color: white;
+            color: #B41513;
+            border: none;
+            border-radius: 10px;
+            padding: 5px 15px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 16px;
+            margin-left: 10px;
+            transition: transform 0.2s;
+        }
+        .pos-button:hover {
+            transform: scale(1.05);
+        }
+        .pos-button img {
+            margin-right: 8px;
+        }
+        .logout-icon {
+            background-color: transparent;
+            margin-left: 20px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .logout-icon:hover {
+            transform: scale(1.1);
+        }
+        .tab-bar {
+            position: fixed;
+            top: 78px;
+            left: -250px;
+            width: 250px;
+            height: calc(100vh - 78px);
+            background-color: white;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            transition: left 0.3s ease-in-out;
+            z-index: 1000;
+            padding-top: 0px;
+            overflow-y: auto;
+        }
+        .tab-bar.show {
+            left: 0;
+        }
+        .tab-button {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            padding: 15px 20px;
+            border: none;
+            /* background-color: #EBEBEB; */
+            background-color: white;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .tab-button span {
+            margin-left: 15px;
+            font-weight: normal;
+            font-size: 16px;
+            color: black;
+            transition: color 0.3s;
+        }
+        .tab-button img {
+            transition: filter 0.3s;
+        }
+        .tab-button:hover, .tab-button.active {
+            background-color: #B41513;
+        }
+        .tab-button:hover span, .tab-button.active span {
+            color: white;
+        }
+        .tab-button:hover img, .tab-button.active img {
+            filter: brightness(0) invert(1);
+        }
+        #content-area {
+            margin-top: 78px;
+            padding: 20px;
+            transition: margin-left 0.3s ease-in-out;
+        }
+        #content-area.tab-open {
+            margin-left: 250px;
+        }
+    </style>
+    <script>
+        function navigateTo(url) {
+             window.location.href = url;
+        }
+
+        function toggleMenu() {
+            const menuIcon = document.getElementById('menu-icon');
+            const tabBar = document.getElementById('tab-bar');
+            const contentArea = document.getElementById('content-area');
+            if (tabBar.classList.contains('show')) {
+                tabBar.classList.remove('show');
+                contentArea.classList.remove('tab-open');
+                menuIcon.textContent = '☰';
+            } else {
+                tabBar.classList.add('show');
+                contentArea.classList.add('tab-open');
+                menuIcon.textContent = '✕';
+            }
+        }
+
+        function updateTime() {
+            const now = new Date();
+            const date = now.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+            const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', timeZoneName: 'short' });
+            document.getElementById('date-time').textContent = `${date} | ${time}`;
+        }
+
+        function loadContent(url) {
+            fetch(url)
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('content-area').innerHTML = html;
+                })
+                .catch(error => console.error('Error loading content:', error));
+        }
+
+        window.onload = function() {
+            updateTime();
+            setInterval(updateTime, 1000);
+            loadContent('dashboard-content.html'); // Load initial dashboard content
+
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.addEventListener('click', function() {
+                    document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+        }
+    </script>
+</head>
+<body>
+    <div class="navbar">
+        <div class="left-section">
+            <span id="menu-icon" class="menu-icon" onclick="toggleMenu()">☰</span>
+            <img src="./Asset/logo.png" alt="Logo" class="logo" width="40" height="40">
+        </div>
+        <div class="right-section">
+            <span id="date-time" class="date-time"></span>
+            <button class="pos-button" onclick="navigateTo('pos-select.html')">
+                <img src="./Asset/pos.svg" alt="POS Icon" width="24" height="24">
+                POS1
+            </button>
+            <img src="./Asset/exit.svg" alt="Logout" class="logout-icon" width="40" height="40" onclick="navigateTo('login.html')">
+        </div>
+    </div>
+    <div id="tab-bar" class="tab-bar">
+        <button class="tab-button cashier-button active" onclick="loadContent('cashier.html')">
+            <img src="./Asset/cashier.svg" alt="Cashier Icon" width="24" height="24">
+            <span>แคชเชียร์</span>
+        </button>
+        <button class="tab-button" onclick="loadContent('product.html')">
+            <img src="./Asset/product.svg" alt="Product Icon" width="24" height="24">
+            <span>สินค้า</span>
+        </button>
+        <button class="tab-button" onclick="loadContent('sales.html')">
+            <img src="./Asset/sale.svg" alt="Sales Icon" width="24" height="24">
+            <span>สรุปยอดขาย</span>
+        </button>
+        <button class="tab-button" onclick="loadContent('promotion.html')">
+            <img src="./Asset/promotion.svg" alt="Promotion Icon" width="24" height="24">
+            <span>โปรโมชั่น</span>
+        </button>
+        <button class="tab-button" onclick="loadContent('sales-history.html')">
+            <img src="./Asset/history.svg" alt="History Icon" width="24" height="24">
+            <span>ประวัติการขาย</span>
+        </button>
+    </div>
+    <div id="content-area"></div>
+</body>
+</html>
