@@ -1,210 +1,224 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login Page</title>
-    <link rel="stylesheet" href="login.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="login.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
     <style>
-        body {
-            background-color: #B41513;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            font-family: 'Poppins', sans-serif;
-        }
+      body {
+        background-color: #b41513;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        font-family: "Poppins", sans-serif;
+      }
 
-        .login-container {
-            background-color: #ffffff;
-            padding: 40px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            text-align: center;
-            width: 300px;
-        }
+      .login-container {
+        background-color: #ffffff;
+        padding: 40px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        text-align: center;
+        width: 300px;
+      }
 
-        .logo {
-            width: 100px;
-            margin-bottom: 20px;
-        }
+      .logo {
+        width: 100px;
+        margin-bottom: 20px;
+      }
 
-        .pos-text {
-            font-family: 'Poppins', sans-serif;
-            font-size: 24px;
-            font-weight: 600;
-            margin-bottom: 20px;
-        }
+      .pos-text {
+        font-family: "Poppins", sans-serif;
+        font-size: 24px;
+        font-weight: 600;
+        margin-bottom: 20px;
+      }
 
-        .login-form {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+      .login-form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
 
-        .login-form input, .login-button {
-            font-family: 'Poppins', sans-serif;
-            font-size: 14px;
-            padding: 10px;
-            margin-bottom: 20px;
-            width: 100%;
-            box-sizing: border-box;
-            border: 1px solid #ccc;
-            border-radius: 25px; /* Rounded corners for input fields */
-        }
+      .login-form input,
+      .login-button {
+        font-family: "Poppins", sans-serif;
+        font-size: 14px;
+        padding: 10px;
+        margin-bottom: 20px;
+        width: 100%;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        border-radius: 25px; /* Rounded corners for input fields */
+      }
 
-        .password-container {
-            position: relative;
-            width: 100%;
-            text-transform: lowercase;
-        }
+      .password-container {
+        position: relative;
+        width: 100%;
+        text-transform: lowercase;
+      }
 
-        .password-container input {
-            font-family: 'Poppins', sans-serif;
-            font-size: 14px;
-            padding: 10px;
-            margin-bottom: 20px;
-            width: 100%;
-            box-sizing: border-box;
-            border: 1px solid #ccc;
-            border-radius: 25px; /* Rounded corners for password input */
-        }
+      .password-container input {
+        font-family: "Poppins", sans-serif;
+        font-size: 14px;
+        padding: 10px;
+        margin-bottom: 20px;
+        width: 100%;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        border-radius: 25px; /* Rounded corners for password input */
+      }
 
-        .password-container .eye-icon {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            cursor: pointer;
-            font-size: 20px;
-        }
+      .password-container .eye-icon {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        font-size: 20px;
+      }
 
-        .login-button {
-            background-color: #B41513;
-            color: #ffffff;
-            font-size: 14px;
-            padding: 10px;
-            border: none;
-            border-radius: 25px; /* Rounded corners for button */
-            cursor: pointer;
-            font-weight: 600;
-            width: 100%;
-            text-transform: lowercase;
-            transition: background-color 0.3s, color 0.3s; /* Smooth transition for hover effect */
-        }
+      .login-button {
+        background-color: #b41513;
+        color: #ffffff;
+        font-size: 14px;
+        padding: 10px;
+        border: none;
+        border-radius: 25px; /* Rounded corners for button */
+        cursor: pointer;
+        font-weight: 600;
+        width: 100%;
+        text-transform: lowercase;
+        transition: background-color 0.3s, color 0.3s; /* Smooth transition for hover effect */
+      }
 
-        .login-button:hover {
-            background-color: #87100F;
-            
-        }
+      .login-button:hover {
+        background-color: #87100f;
+      }
 
-        .password-toggle-icon {
-            position: absolute;
-            top: 50%;
-            right: 10px;
-            transform: translateY(-50%);
-            cursor: pointer;
-        }
+      .password-toggle-icon {
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        transform: translateY(-50%);
+        cursor: pointer;
+      }
 
-        .password-toggle-icon i {
-            font-size: 18px;
-            line-height: 1;
-            color: #333;
-            transition: color 0.3s ease-in-out;
-            margin-bottom: 20px;
-        }
+      .password-toggle-icon i {
+        font-size: 18px;
+        line-height: 1;
+        color: #333;
+        transition: color 0.3s ease-in-out;
+        margin-bottom: 20px;
+      }
 
-        .password-toggle-icon i:hover {
-            color: #000;
-        }
+      .password-toggle-icon i:hover {
+        color: #000;
+      }
 
-        /* New styles for bold text */
-        .bold-text {
-            font-weight: bold;
-        }
+      /* New styles for bold text */
+      .bold-text {
+        font-weight: bold;
+      }
 
-        /* Error message styling */
-        .error-message {
-            color: red;
-            font-size: 12px;
-            margin-top: -10px;
-            margin-bottom: 20px;
-            display: none;
-        }
+      /* Error message styling */
+      .error-message {
+        color: red;
+        font-size: 12px;
+        margin-top: -10px;
+        margin-bottom: 20px;
+        display: none;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="login-container">
-        <img src="./Asset/logo.png" alt="Logo" class="logo">
-        <div class="pos-text">แม่ POS</div>
-        <form class="login-form" onsubmit="login(event)">
-            <input type="text" id="username" placeholder="username" required>
-            <div class="password-container">
-                <input type="password" placeholder="password" id="password" required>
-                <span class="password-toggle-icon"><i class="fas fa-eye"></i></span>
-            </div>
-            <div class="error-message" id="error-message">incorrect username or password <br> try again.</div>
-            <button type="submit" class="login-button">Login</button>
-        </form>
+      <img src="./Asset/logo.png" alt="Logo" class="logo" />
+      <div class="pos-text">แม่ POS</div>
+      <form class="login-form" onsubmit="login(event)">
+        <input type="text" id="username" placeholder="username" required />
+        <div class="password-container">
+          <input
+            type="password"
+            placeholder="password"
+            id="password"
+            required
+          />
+          <span class="password-toggle-icon"><i class="fas fa-eye"></i></span>
+        </div>
+        <div class="error-message" id="error-message">
+          incorrect username or password <br />
+          try again.
+        </div>
+        <button type="submit" class="login-button">Login</button>
+      </form>
     </div>
 
     <script>
-        const passwordField = document.getElementById("password");
-        const usernameField = document.getElementById("username");
-        const errorMessage = document.getElementById("error-message");
-        const togglePassword = document.querySelector(".password-toggle-icon i");
+      const passwordField = document.getElementById("password");
+      const usernameField = document.getElementById("username");
+      const errorMessage = document.getElementById("error-message");
+      const togglePassword = document.querySelector(".password-toggle-icon i");
 
-        togglePassword.addEventListener("click", function () {
-            if (passwordField.type === "password") {
-                passwordField.type = "text";
-                togglePassword.classList.remove("fa-eye");
-                togglePassword.classList.add("fa-eye-slash");
-            } else {
-                passwordField.type = "password";
-                togglePassword.classList.remove("fa-eye-slash");
-                togglePassword.classList.add("fa-eye");
-            }
-        });
-
-        usernameField.addEventListener("input", function() {
-            if (usernameField.value.length > 0) {
-                usernameField.classList.add("bold-text");
-            } else {
-                usernameField.classList.remove("bold-text");
-            }
-        });
-
-        passwordField.addEventListener("input", function() {
-            if (passwordField.value.length > 0) {
-                passwordField.classList.add("bold-text");
-            } else {
-                passwordField.classList.remove("bold-text");
-            }
-        });
-
-        function login(event) {
-            event.preventDefault(); // Prevent form submission
-
-            const username = usernameField.value;
-            const password = passwordField.value;
-
-            // Simple validation for demonstration purposes
-            if (username === "admin" && password === "123") {
-                // Redirect to the desired page
-                window.location.href = 'pos-select.html';
-            } else {
-                // Show error message
-                errorMessage.style.display = 'block';
-                // Clear the input fields
-                usernameField.value = '';
-                passwordField.value = '';
-                usernameField.classList.remove("bold-text");
-                passwordField.classList.remove("bold-text");
-            }
+      togglePassword.addEventListener("click", function () {
+        if (passwordField.type === "password") {
+          passwordField.type = "text";
+          togglePassword.classList.remove("fa-eye");
+          togglePassword.classList.add("fa-eye-slash");
+        } else {
+          passwordField.type = "password";
+          togglePassword.classList.remove("fa-eye-slash");
+          togglePassword.classList.add("fa-eye");
         }
+      });
+
+      usernameField.addEventListener("input", function () {
+        if (usernameField.value.length > 0) {
+          usernameField.classList.add("bold-text");
+        } else {
+          usernameField.classList.remove("bold-text");
+        }
+      });
+
+      passwordField.addEventListener("input", function () {
+        if (passwordField.value.length > 0) {
+          passwordField.classList.add("bold-text");
+        } else {
+          passwordField.classList.remove("bold-text");
+        }
+      });
+
+      function login(event) {
+        event.preventDefault(); // Prevent form submission
+
+        const username = usernameField.value;
+        const password = passwordField.value;
+
+        // Simple validation for demonstration purposes
+        if (username === "admin" && password === "123") {
+          // Redirect to the desired page
+          window.location.href = "pos-select.html";
+        } else {
+          // Show error message
+          errorMessage.style.display = "block";
+          // Clear the input fields
+          usernameField.value = "";
+          passwordField.value = "";
+          usernameField.classList.remove("bold-text");
+          passwordField.classList.remove("bold-text");
+        }
+      }
     </script>
-</body>
+  </body>
 </html>

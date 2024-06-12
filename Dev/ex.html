@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>POS System with Payment Overlay</title>
+    <style>
+      body,
+      h3,
+      button,
+      input {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      .header {
+        background: red;
+        color: white;
+        padding: 10px;
+        font-size: 24px;
+        text-align: center;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+        padding: 10px;
+      }
+      .item {
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: center;
+        border-radius: 5px;
+      }
+      .cart {
+        position: fixed;
+        top: 50px;
+        right: 10px;
+        width: 300px;
+        border: 1px solid #ddd;
+        padding: 10px;
+        background: white;
+      }
+      .cart-item {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 8px;
+      }
+      .overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        align-items: center;
+        justify-content: center;
+      }
+      .overlay-content {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        width: 300px;
+      }
+      .close-btn {
+        float: right;
+        cursor: pointer;
+      }
+      button,
+      input[type="button"] {
+        background: red;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 10px;
+        cursor: pointer;
+        margin-top: 5px;
+        width: 100%;
+      }
+      button:hover,
+      input[type="button"]:hover {
+        background: darkred;
+      }
+      input[type="text"] {
+        width: calc(100% - 22px);
+        padding: 10px;
+        margin-top: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">Welcome to POS</div>
+    <div class="grid">
+      <div class="item">
+        <p>Product 1</p>
+        <p>$10.00</p>
+        <button onclick="addToCart('Product 1', 10)">Add to Cart</button>
+      </div>
+      <!-- Repeat for each product -->
+    </div>
+    <div class="cart">
+      <h3>Cart</h3>
+      <div id="cartItems"></div>
+      <p>Total: $<span id="total">0</span></p>
+      <button onclick="showOverlay()">Checkout</button>
+    </div>
+    <div class="overlay" id="paymentOverlay">
+      <div class="overlay-content">
+        <span class="close-btn" onclick="hideOverlay()">×</span>
+        <h3>วิธีการชำระเงิน</h3>
+        <input type="text" id="cashInput" placeholder="เงินสด" />
+        <input type="button" value="E-Wallet" onclick="showQRCode()" />
+        <input
+          type="button"
+          value="โอนผ่านเเอปธนาคาร"
+          onclick="showBankTransfer()"
+        />
+        <button onclick="saveTransaction()">ตกลง</button>
+      </div>
+    </div>
+    <script>
+      var cart = {};
+      var total = 0;
+
+      function addToCart(name, price) {
+        if (cart[name]) {
+          cart[name].qty++;
+        } else {
+          cart[name] = { price: price, qty: 1 };
+        }
+        updateCart();
+      }
+
+      function updateCart() {
+        const cartArea = document.getElementById("cartItems");
+        cartArea.innerHTML = "";
+        total = 0;
+        Object.keys(cart).forEach((item) => {
+          total += cart[item].price * cart[item].qty;
+          cartArea.innerHTML += `<div class="cart-item"><span>${item} x ${
+            cart[item].qty
+          }</span> <span>$${(cart[item].price * cart[item].qty).toFixed(
+            2
+          )}</span></div>`;
+        });
+        document.getElementById("total").innerText = total.toFixed(2);
+      }
+
+      function showOverlay() {
+        document.getElementById("paymentOverlay").style.display = "flex";
+      }
+
+      function hideOverlay() {
+        document.getElementById("paymentOverlay").style.display = "none";
+      }
+
+      function showQRCode() {
+        alert("Display QR Code for payment");
+        // You would integrate actual QR code generation here
+      }
+
+      function showBankTransfer() {
+        alert("Provide details for bank transfer");
+        // Include bank transfer details or integration here
+      }
+
+      function saveTransaction() {
+        alert("Transaction saved!");
+        cart = {};
+        updateCart();
+        hideOverlay();
+      }
+    </script>
+    <img src="/path_to_qr/qr.svg" alt="PromptPay QR Code" />
+  </body>
+</html>
