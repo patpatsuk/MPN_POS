@@ -8,6 +8,5 @@ The MPN_POS system is tailored to streamline sales processes, ensuring efficient
 
 ### Features
 - **Transaction Management:** Efficient handling of sales transactions.
-- **Inventory Control:** Real-time inventory tracking and management.
 - **Reporting:** Detailed reports generation for sales, inventory, and more.
 - **User-Friendly Interface:** Easy to navigate user interface for optimal user experience.
