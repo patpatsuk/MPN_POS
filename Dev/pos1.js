@@ -48,7 +48,7 @@ function filterProducts(category) {
 function showModal() {
 document.getElementById('transactionModal').style.display = 'flex'; // Show the modal
 }
-
+    
 function closeModal() {
 document.getElementById('transactionModal').style.display = 'none'; // Hide the modal
 }
