@@ -44,6 +44,7 @@ function filterProducts(category) {
     });
 }
 
+
 function showModal() {
 document.getElementById('transactionModal').style.display = 'flex'; // Show the modal
 }
@@ -73,17 +74,26 @@ cartItem.classList.add('cart-item');
 cartItem.innerHTML = `
     <img src="${item.imgSrc}" alt="${item.name}" style="width: 50px; height: 50px; margin-right: 10px;"> <!-- Display the image -->
     <div>
-        <p>${item.name}<br>${item.price.toFixed(2)} บาท</p>
+         <p>${item.name}<br><span style="color: #B41513;">${item.price.toFixed(2)} บาท</span></p>
         <div class="quantity-control">
             <button onclick="updateQuantity('${item.name}', -1)">-</button>
             <span>${item.quantity}</span>
             <button onclick="updateQuantity('${item.name}', 1)">+</button>
         </div>
     </div>
+    <img src="./Asset/bin.svg" alt="Delete" class="delete-icon" onclick="removeFromCart('${item.name}')">
 `;
 cartElement.appendChild(cartItem);
 });
 updateSummary();
+}
+
+function removeFromCart(itemName) {
+    const index = cartItems.findIndex(item => item.name === itemName);
+    if (index > -1) {
+        cartItems.splice(index, 1); // Remove the item from the array
+        renderCart(); // Re-render the cart to update the UI
+    }
 }
 
 
@@ -100,26 +110,26 @@ function updateQuantity(name, change) {
 }
 
 function updateSummary() {
-const total = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-const discount = 0; // Calculate discount if applicable
-const grandTotal = total - discount;
-
-// Update summary in cart
-document.querySelector('.summary p:nth-child(1)').textContent = `ยอดรวม: ${total.toFixed(2)} บาท`;
-document.querySelector('.summary p:nth-child(2)').textContent = `ส่วนลด: -${discount.toFixed(2)} บาท`;
-document.querySelector('.summary p:nth-child(3)').textContent = `ทั้งหมด: ${grandTotal.toFixed(2)} บาท`;
-
-// Update summary in modal
-document.getElementById('totalPrice').textContent = `ยอดรวม: ${total.toFixed(2)} บาท`;
-document.getElementById('discount').textContent = `ส่วนลด: -${discount.toFixed(2)} บาท`;
-document.getElementById('grandTotal').textContent = `ทั้งหมด: ${grandTotal.toFixed(2)} บาท`;
-}
-
-
-function checkBill() {
-   updateSummary();
-    document.getElementById('transactionModal').style.display = 'flex';
-}
+    const total = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const discount = 0; // Calculate discount if applicable
+    const grandTotal = total - discount;
+    
+    // Update summary in cart
+    document.querySelector('.summary p:nth-child(1)').textContent = `ยอดรวม: ${total.toFixed(2)} บาท`;
+    document.querySelector('.summary p:nth-child(2)').textContent = `ส่วนลด: -${discount.toFixed(2)} บาท`;
+    document.querySelector('.summary p:nth-child(3)').textContent = `ทั้งหมด: ${grandTotal.toFixed(2)} บาท`;
+    
+    // Update summary in modal
+    document.getElementById('totalPrice').textContent = `ยอดรวม: ${total.toFixed(2)} บาท`;
+    document.getElementById('discount').textContent = `ส่วนลด: -${discount.toFixed(2)} บาท`;
+    document.getElementById('grandTotal').textContent = `ทั้งหมด: ${grandTotal.toFixed(2)} บาท`;
+    }
+    
+    
+    function checkBill() {
+       updateSummary();
+        document.getElementById('transactionModal').style.display = 'flex';
+    }
 
 function selectPaymentMethod(method) {
 const numpad = document.getElementById('numpad');
@@ -127,10 +137,8 @@ if (method === 'cash') {
 numpad.style.display = 'flex'; // Shows the numpad with flex layout
 } else {
 numpad.style.display = 'none'; // Hides the numpad
+ }
 }
-}
-
-
 
 function inputCash(num) {
     const cashInput = document.getElementById('cashInput');
@@ -154,12 +162,25 @@ closeModal(); // Assuming you want to close the modal on cancellation
 }
 
 function confirmTransaction() {
-console.log("Transaction confirmed.");
+    console.log("Transaction confirmed.");
 
-// Hide the numpad
-document.getElementById('numpad').style.display = 'none';
-closeModal();
-}        
+    // Hide the numpad
+    document.getElementById('numpad').style.display = 'none';
+    closeModal();
+
+    // Increment and update receipt number
+    updateReceiptNumber();
+}
+
+function updateReceiptNumber() {
+    // Assuming receipt number is stored and updated in a simple numeric format
+    let currentNumber = document.getElementById('receipt-number').textContent;
+    let number = parseInt(currentNumber.replace('#', '')); // Remove the '#' and convert to integer
+    let newNumber = number + 1; // Increment the receipt number
+
+    // Update the UI
+    document.getElementById('receipt-number').textContent = '#' + newNumber.toString().padStart(4, '0'); // Pad the number with zeros
+}      
 window.onload = function() {
     updateTime();
     setInterval(updateTime, 1000);

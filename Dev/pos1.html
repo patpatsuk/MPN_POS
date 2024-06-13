@@ -52,8 +52,9 @@
             </button>
          </div>
          <div id="content-area">
-            <main>
+            <header>
                <h1>Welcome to แม่ POS</h1>
+            </header>
                <section class="product-categories">
                   <button onclick="filterProducts('น้ำพริก')">น้ำพริก</button>
                   <button onclick="filterProducts('น้ำจิ้ม')">น้ำจิ้ม</button>
@@ -72,13 +73,13 @@
                      <img src="Asset/น้ำพริก/Vegetarian Thai Chilli Paste 114g.png" alt="Product 2">
                      <p>น้ำพริกเผาไทยสูตรเจ<br>32.00 บาท</p>
                   </div>
-                  <div class="product" onclick="addToCart('น้ำพริกเผาไทยไม่มีน้ำตาล', 63)">
-                     <img src="Asset/น้ำพริก/Thai Chilli Paste 114g.png"Product 3">
+                  <div class="product" onclick="addToCart('น้ำพริกเผาไทยไม่มีน้ำตาล', 63 , 'Asset/น้ำพริก/Thai Chilli Paste 114g.png')">
+                     <img src="Asset/น้ำพริก/Thai Chilli Paste 114g.png" alt="Product 3">
                      <p>น้ำพริกเผาไทยไม่มีน้ำตาล<br>63.00 บาท</p>
                   </div>
-                  <div class="product" onclick="addToCart('น้ำพริกเผาไทย', 120)">
-                     <img src="product1.jpg" alt="Product 4">
-                     <p>น้ำพริกเผาไทย<br>120.00 บาท</p>
+                  <div class="product" onclick="addToCart('น้ำพริกมันกุ้ง', 77 , 'Asset/น้ำพริก/Shrimp Fat in Oil 90g.png')">
+                     <img src="Asset/น้ำพริก/Shrimp Fat in Oil 90g.png" alt="Product 4">
+                     <p>น้ำพริกมันกุ้ง<br>77.00 บาท</p>
                   </div>
                   <div class="product" onclick="addToCart('น้ำพริกเผาไทย', 120)">
                      <img src="product1.jpg" alt="Product 5">
@@ -114,19 +115,21 @@
                      <p>น้ำจิ้มซีฟู้ด<br>50.00 บาท</p>
                   </div>
                   <aside class="cart">
-                     <h2>ใบเสร็จ</h2>
+                    
+                     <h2>ใบเสร็จ <span id="receipt-number">#0001</span></h2>
                      <div class="cart-items">
+                        
                         <!-- Cart items will be added dynamically here -->
                      </div>
-                     <div class="summary">
-                        <p>ยอดรวม: 0.00 บาท</p>
+                        <div class="summary">
+                           <p>ยอดรวม: 0.00 บาท</p>
                         <p>ส่วนลด: -0.00 บาท</p>
                         <p>ทั้งหมด: 0.00 บาท</p>
                         <button class="summary-btn" onclick="checkBill()">สรุปรายการ</button>
                      </div>
                   </aside>
                </section>
-            </main>
+        
          </div>
       </main>
    </body>
@@ -160,8 +163,8 @@
                <button onclick="inputCash(9)">9</button>
             </div>
             <div>
-               <button onclick="inputCash(0)">0</button>
                <button onclick="clearCash()">C</button>
+               <button onclick="inputCash(0)">0</button>
                <button onclick="calculateChange()">OK</button>
             </div>
             <div class="change-display">

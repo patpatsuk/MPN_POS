@@ -157,7 +157,7 @@
          background-color: #B41513;
          color: white;
          }
-         h1 {
+         header {
          border: 0;
          text-align: left;
          margin-top: -20; /* Adjust as needed */
@@ -171,17 +171,27 @@
          padding: 20px;
          }
          .product-categories {
-         display: flex;
-         flex-direction: column;
-         padding: 20px;
-         gap: 10px;
-         }
-         .product-categories button {
-         padding: 10px;
-         background-color: #f0f0f0;
-         border: none;
-         cursor: pointer;
-         }
+            display: flex;
+            justify-content: space-around; /* This will distribute spacing evenly */
+            align-items: center; /* Centers items vertically */
+            width: 100%; /* Ensures the container takes full width */
+            padding: 20px; /* Adds some padding inside the container */
+        }
+        
+        .product-categories button {
+            flex: 1; /* Allows buttons to grow and fill the space equally */
+            margin: 0 10px; /* Adds horizontal spacing between buttons */
+            padding: 10px 20px; /* Adds padding inside each button for better clickability */
+            text-align: center; /* Ensures text is centered within each button */
+            background-color: #f0f0f0; /* Light grey background for better visibility */
+            border: none; /* Removes border */
+            cursor: pointer; /* Shows a pointer cursor on hover */
+            transition: background-color 0.3s; /* Smooth background color transition on hover */
+        }
+        
+        .product-categories button:hover {
+            background-color: #e0e0e0; /* Changes background on hover */
+        }
          .products {
          display: flex;
          flex-wrap: wrap;
@@ -204,17 +214,35 @@
          object-fit: cover;
          }
          .cart {
-         border: 1px solid #ccc;
-         border-radius: 5%;
-         padding: 20px;
-         width: 250px;
-         }
-         .cart-item {
-         display: flex;
-         justify-content: space-between;
-         margin-bottom: 10px;
-         tab-size: 48px;
-         }
+            position: fixed;
+            top: 58px; /* Adjust this based on the actual height of your navbar */
+            right: 0;
+            width: 250px; /* or whatever width you prefer */
+            height: calc(100vh - 58px); /* Adjust height to take full remaining vertical space */
+            overflow-y: auto; /* Adds scroll to the cart if content overflows */
+            border-left: 1px solid #ccc; /* Adds a border on the left side for better separation */
+            background-color: #fff; /* Ensure it has a solid background */
+            z-index: 1000; /* Ensure it stays on top of other content but below fixed elements like navbar */
+        }
+        .cart-item {
+            background-color: #F5F5F5; /* The gray background color you specified */
+            border-radius: 5px; /* Adjust this value to get the desired 'square-rounded' look */
+            padding: 10px; /* Provides some spacing inside the cart item */
+            margin-bottom: 10px; /* Adds space between cart items */
+            display: flex;
+            align-items: center;
+            justify-content: space-between; /* This will keep the content spaced out */
+            margin : 10px    
+        }
+        .cart-item p span {
+            color: #B41513; /* Sets the text color to the specified red */
+        }
+        .delete-icon {
+            cursor: pointer;
+            margin-left: auto; 
+            width: 24px; 
+            height: 24px; 
+        }
          .quantity-control {
          display: flex;
          align-items: center;
@@ -224,16 +252,33 @@
          border-top: 1px solid #ccc;
          padding-top: 10px;
          }
+         .summary-item {
+            display: flex;
+            justify-content: space-between; /* Aligns items on opposite ends */
+            margin-bottom: 5px; /* Spacing between items */
+        }
          .summary p {
          margin: 5px 0;
          }
          .summary-btn {
+         width: 100%;
          background-color: #a00000;
          color: #ffffff;
          border: none;
          padding: 10px;
          cursor: pointer;
+         border-radius: 5px;
          }
+         .label {
+            text-align: left; /* Align text to the left */
+            color: #000; /* Optional: set text color */
+        }
+        
+        .value {
+            text-align: right; /* Align text to the right */
+            font-weight: bold; /* Make numbers bold */
+            color: #000; /* Optional: set text color */
+        }
          .pos-btn {
          background-color: #ffffff;
          color: #a00000;
@@ -318,3 +363,17 @@
          .confirm-button {
          background-color: #5cb85c; /* Green */
          }
+
+         .menu button {
+            background-color: #ff6666;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            margin: 2px;
+            cursor: pointer;
+        }
+        
+        .menu button:hover, .menu button.active {
+            background-color: #cc0000;
+        }
+        
