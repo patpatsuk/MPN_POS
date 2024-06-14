@@ -125,7 +125,7 @@ body {
     }
     #content-area {
     margin-left: -12px;
-    margin-top: 60px;
+    margin-top: 0px;
     padding: 20px;
     transition: margin-left 0.3s ease-in-out;
     padding-top: 15px;
@@ -164,8 +164,7 @@ body {
     margin-top: -20; /* Adjust as needed */
     font-weight: 600;
     color: black;
-    margin : 20px;
-    font-size: 20px;
+    margin : 20px
     }
     main {
     display: flex;
@@ -352,7 +351,7 @@ body {
     gap: 10px;
     }
     .numpad button {
-    width: 70px;
+    width: 50px;
     height: 50px;
     font-size: 1.2em;
     }
@@ -382,7 +381,6 @@ body {
     }
     .cancel-button {
     background-color: #d9534f; /* Red */
-
     }
     .confirm-button {
     background-color: #5cb85c; /* Green */

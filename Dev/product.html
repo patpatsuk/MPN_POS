@@ -25,12 +25,12 @@
             </div>
          </div>
          <div id="tab-bar" class="tab-bar">
-            <button class="tab-button cashier-button active" onclick="navigateTo('pos1.html')">
+            <button class="tab-button " onclick="navigateTo('pos1.html')">
             <img src="./Asset/cashier.svg" alt="Cashier Icon" width="24" height="24">
             <span>แคชเชียร์</span>
             <img src="./Asset/right-arr.svg" alt="Arrow Icon" class="arrow-icon" width="24" height="24">
             </button>
-            <button class="tab-button " onclick="navigateTo('product.html')">
+            <button class="tab-button cashier-button active" onclick="navigateTo('product.html')">
             <img src="./Asset/product.svg" alt="Product Icon" width="24" height="24">
             <span>สินค้า</span>
             <img src="./Asset/right-arr.svg" alt="Arrow Icon" class="arrow-icon" width="24" height="24">
@@ -51,10 +51,8 @@
             <img src="./Asset/right-arr.svg" alt="Arrow Icon" class="arrow-icon" width="24" height="24">
             </button>
          </div>
+
          <div id="content-area">
-            <header>
-               <h1>Welcome to แม่ POS</h1>
-            </header>
             <section class="product-categories">
                <button onclick="filterProducts('น้ำพริก')">น้ำพริก</button>
                <button onclick="filterProducts('น้ำจิ้ม')">น้ำจิ้ม</button>
@@ -122,65 +120,9 @@
                   <img src="Asset/น้ำจิ้ม/Seafood Sauce.png" alt="น้ำจิ้มซีฟู้ด">
                   <p>น้ำจิ้มซีฟู้ด<br>50.00 บาท</p>
                </div>
-               <aside class="cart">
-                  <h2>ใบเสร็จ <span id="receipt-number">#0001</span></h2>
-
-                  <div class="cart-items">
-                     <!-- Cart items will be added dynamically here -->
-                  </div>
-                  <div class="summary">
-                     <p>ยอดรวม: 0.00 บาท</p>
-                     <p>ส่วนลด: -0.00 บาท</p>
-                     <p>ทั้งหมด: 0.00 บาท</p>
-                     <button class="summary-btn" onclick="checkBill()">สรุปรายการ</button>
-                  </div>
-               </aside>
             </section>
          </div>
       </main>
+      
    </body>
-   <div class="modal" id="transactionModal">
-      <div class="modal-content">
-         <button class="close-btn" onclick="closeModal()">x</button>
-         <h2>เลือกวิธีการชำระเงิน</h2>
-         <div id="paymentSummary">
-            <p id="totalPrice">ยอดรวม: 0.00 บาท</p>
-            <p id="discount">ส่วนลด: -0.00 บาท</p>
-            <p id="grandTotal">ทั้งหมด: 0.00 บาท</p>
-         </div>
-         <button onclick="selectPaymentMethod('cash')">เงินสด</button>
-         <button onclick="selectPaymentMethod('qr')">QR Payment</button>
-         <!-- Other modal content -->
-         <div class="numpad" id="numpad">
-            <input type="text" id="cashInput" placeholder="Enter cash amount" readonly>
-            <div>
-               <button onclick="inputCash(1)">1</button>
-               <button onclick="inputCash(2)">2</button>
-               <button onclick="inputCash(3)">3</button>
-            </div>
-            <div>
-               <button onclick="inputCash(4)">4</button>
-               <button onclick="inputCash(5)">5</button>
-               <button onclick="inputCash(6)">6</button>
-            </div>
-            <div>
-               <button onclick="inputCash(7)">7</button>
-               <button onclick="inputCash(8)">8</button>
-               <button onclick="inputCash(9)">9</button>
-            </div>
-            <div>
-               <button onclick="clearCash()">C</button>
-               <button onclick="inputCash(0)">0</button>
-               <button onclick="calculateChange()">OK</button>
-            </div>
-            <div class="change-display">
-               <p id="changeDisplay">เงินทอน: 0.00 บาท</p>
-            </div>
-            <div class="transaction-buttons">
-               <button onclick="cancelTransaction()" class="cancel-button">ยกเลิก</button>
-               <button onclick="confirmTransaction()" class="confirm-button">สำเร็จ</button>
-            </div>
-         </div>
-      </div>
-   </div>
-</html>
+</html> 

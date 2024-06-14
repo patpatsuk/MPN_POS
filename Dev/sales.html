@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Dashboard</title>
+      <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+      <link rel="stylesheet" href="pos1.css">
+   </head>
+   <body>
+      <script src="pos1.js"></script>
+      <main>
+         <div class="navbar">
+            <div class="left-section">
+               <span id="menu-icon" class="menu-icon" onclick="toggleMenu()">☰</span>
+               <img src="./Asset/logo.png" alt="Logo" class="logo" width="40" height="40">
+            </div>
+            <div class="right-section">
+               <span id="date-time" class="date-time"></span>
+               <button class="pos-button" onclick="navigateTo('pos-select.html')">
+               <img src="./Asset/pos.svg" alt="POS Icon" width="24" height="24">
+               POS1
+               </button>
+               <img src="./Asset/exit.svg" alt="Logout" class="logout-icon" width="40" height="40" onclick="navigateTo('login.html')">
+            </div>
+         </div>
+         <div id="tab-bar" class="tab-bar">
+            <button class="tab-button " onclick="navigateTo('pos1.html')">
+            <img src="./Asset/cashier.svg" alt="Cashier Icon" width="24" height="24">
+            <span>แคชเชียร์</span>
+            <img src="./Asset/right-arr.svg" alt="Arrow Icon" class="arrow-icon" width="24" height="24">
+            </button>
+            <button class="tab-button " onclick="navigateTo('product.html')">
+            <img src="./Asset/product.svg" alt="Product Icon" width="24" height="24">
+            <span>สินค้า</span>
+            <img src="./Asset/right-arr.svg" alt="Arrow Icon" class="arrow-icon" width="24" height="24">
+            </button>
+            <button class="tab-button cashier-button active" onclick="navigateTo('sales.html')">
+            <img src="./Asset/sale.svg" alt="Sales Icon" width="24" height="24">
+            <span>สรุปยอดขาย</span>
+            <img src="./Asset/right-arr.svg" alt="Arrow Icon" class="arrow-icon" width="24" height="24">
+            </button>
+            <button class="tab-button" onclick="navigateTo('promotion.html')">
+            <img src="./Asset/promotion.svg" alt="Promotion Icon" width="24" height="24">
+            <span>โปรโมชั่น</span>
+            <img src="./Asset/right-arr.svg" alt="Arrow Icon" class="arrow-icon" width="24" height="24">
+            </button>
+            <button class="tab-button" onclick="navigateTo('sales-history.html')">
+            <img src="./Asset/history.svg" alt="History Icon" width="24" height="24">
+            <span>ประวัติการขาย</span>
+            <img src="./Asset/right-arr.svg" alt="Arrow Icon" class="arrow-icon" width="24" height="24">
+            </button>
+         </div>
+
+         <div id="content-area">
+            <header>
+               <h1>สรุปยอดขาย</h1>
+            </header>
