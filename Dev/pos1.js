@@ -131,14 +131,18 @@ function updateSummary() {
         document.getElementById('transactionModal').style.display = 'flex';
     }
 
-function selectPaymentMethod(method) {
-const numpad = document.getElementById('numpad');
-if (method === 'cash') {
-numpad.style.display = 'flex'; // Shows the numpad with flex layout
-} else {
-numpad.style.display = 'none'; // Hides the numpad
- }
-}
+    function selectPaymentMethod(method) {
+        const numpad = document.getElementById('numpad');
+        const qrPaymentModal = document.getElementById('qrPaymentModal');
+        if (method === 'cash') {
+            numpad.style.display = 'flex';
+            qrPaymentModal.style.display = 'none';
+        } else if (method === 'qr') {
+            qrPaymentModal.style.display = 'flex';
+            numpad.style.display = 'none';
+            showQRPaymentModal();
+        }
+    }
 
 function inputCash(num) {
     const cashInput = document.getElementById('cashInput');
@@ -150,10 +154,20 @@ function clearCash() {
 }
 
 function calculateChange() {
-    const cashInput = document.getElementById('cashInput').value;
-    const total = parseFloat(document.querySelector('.summary p:nth-child(3)').textContent.split(': ')[1]);
-    const change = cashInput - total;
-    document.getElementById('changeDisplay').textContent = `เงินทอน: ${change.toFixed(2)} บาท`;
+    const cashInputValue = document.getElementById('cashInput').value;
+    if (cashInputValue) {
+        const grandTotalElement = document.getElementById('grandTotal');
+        // Ensure to extract the numerical value correctly
+        const grandTotal = parseFloat(grandTotalElement.textContent.replace('ทั้งหมด: ', '').replace(' บาท', ''));
+        const cashReceived = parseFloat(cashInputValue);
+        const change = cashReceived - grandTotal;
+
+        // Update the display of change
+        document.getElementById('changeDisplay').textContent = `เงินทอน: ${change.toFixed(2)} บาท`;
+    } else {
+        // In case no input is detected, set change display to zero
+        document.getElementById('changeDisplay').textContent = `เงินทอน: 0.00 บาท`;
+    }
 }
 
 function cancelTransaction() {
@@ -166,10 +180,21 @@ function confirmTransaction() {
 
     // Hide the numpad
     document.getElementById('numpad').style.display = 'none';
+    clearCash();
+    
     closeModal();
-
+    cartItems.length = 0;
+    renderCart();
+    
     // Increment and update receipt number
     updateReceiptNumber();
+    // clear input
+    
+    //reset summary
+    document.getElementById('totalPrice').textContent = 'ยอดรวม: 0.00 บาท';
+    document.getElementById('discount').textContent = 'ส่วนลด: -0.00 บาท';
+    document.getElementById('grandTotal').textContent = 'ทั้งหมด: 0.00 บาท';
+    document.getElementById('changeDisplay').textContent = 'เงินทอน: 0.00 บาท';
 }
 
 function updateReceiptNumber() {
@@ -181,6 +206,50 @@ function updateReceiptNumber() {
     // Update the UI
     document.getElementById('receipt-number').textContent = '#' + newNumber.toString().padStart(4, '0'); // Pad the number with zeros
 }      
+
+// Function to show the QR payment modal
+function showQRPaymentModal() {
+    const grandTotalText = document.getElementById('grandTotal').textContent;
+    document.getElementById('qrGrandTotal').textContent = grandTotalText;
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    // Event listener to ensure QR modal opens
+    const qrButton = document.querySelector('button[onclick="selectPaymentMethod(\'qr\')"]');
+    qrButton.addEventListener('click', function() {
+        selectPaymentMethod('qr');
+    });
+});
+
+// Function to close the QR payment modal
+function closeQRPaymentModal() {
+    document.getElementById('qrPaymentModal').style.display = 'none';
+}
+
+// Function to handle cancel action for QR payment
+function cancelQRPayment() {
+    console.log("QR Payment cancelled.");
+    closeQRPaymentModal();
+}
+
+// Function to handle confirm action for QR payment
+function confirmQRPayment() {
+    console.log("QR Payment confirmed.");
+    closeQRPaymentModal();
+    // Reset cart and summary as in the existing confirmTransaction function
+    cartItems.length = 0;
+    renderCart();
+    updateReceiptNumber();
+    // Reset summary display
+    document.getElementById('totalPrice').textContent = 'ยอดรวม: 0.00 บาท';
+    document.getElementById('discount').textContent = 'ส่วนลด: -0.00 บาท';
+    document.getElementById('grandTotal').textContent = 'ทั้งหมด: 0.00 บาท';
+    document.getElementById('changeDisplay').textContent = 'เงินทอน: 0.00 บาท';
+}
+
+// Add event listener for the QR payment button
+document.querySelector('button[onclick="selectPaymentMethod(\'qr\')"]').addEventListener('click', showQRPaymentModal);
+
 window.onload = function() {
     updateTime();
     setInterval(updateTime, 1000);
@@ -198,4 +267,7 @@ window.onload = function() {
             this.classList.add('selected');
         });
     });
+    document.querySelector('button[onclick="selectPaymentMethod(\'qr\')"]').addEventListener('click', showQRPaymentModal);
 }
+
+

@@ -150,6 +150,20 @@
          </div>
          <button onclick="selectPaymentMethod('cash')">เงินสด</button>
          <button onclick="selectPaymentMethod('qr')">QR Payment</button>
+
+         <div class="modal" id="qrPaymentModal">
+            <div class="modal-content">
+                <button class="close-btn" onclick="document.getElementById('qrPaymentModal').style.display = 'none';">x</button>
+                <h2>QR Payment</h2>
+                <p id="qrGrandTotal">ทั้งหมด: 0.00 บาท</p>
+                <img src="Asset/test-promptpay-qr/qr.png" alt="QR Code" id="qrCodeImage">
+                <div class="transaction-actions">
+                    <button class="cancel-button" onclick="document.getElementById('qrPaymentModal').style.display = 'none';">Cancel</button>
+                    <button class="confirm-button" onclick="confirmQRPayment();">Confirm</button>
+                </div>
+            </div>
+        </div>
+
          <!-- Other modal content -->
          <div class="numpad" id="numpad">
             <input type="text" id="cashInput" placeholder="Enter cash amount" readonly>
